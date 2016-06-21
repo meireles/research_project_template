@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Read important variables
+################################################################################
+
+# Current **absolute** path (from where the script is being executed)
+current_path="$PWD"
+
+# The base name of the current directory
+dir_basename=$(basename "$current_path")
+
+# The root of git_subrepo
+git_subrepo_root="$GIT_SUBREPO_ROOT"
+
+
+################################################################################
+# Test pre-conditions
+################################################################################
+
+# current dir is a git repo
+if [[ ! -d "$current_path/.git" ]]; then
+  echo "Error: init_project must be run at the root of a git repo!"
+  exit 1
+fi
+
+# git-subrepo is installed
+if [[ -z "$git_subrepo_root" ]]; then
+  echo "Error: git-subrepo is not installed!"
+  exit 1
+fi
+
+
+################################################################################
+# Make a '.bash' dir and move current script there
+################################################################################
+
+mkdir .bash
+mv "$current_path/init-project" "$current_path/.bash/init-project_RAN"
+
+
+################################################################################
+# Update .Rproj name
+################################################################################
+
+mv *".Rproj" "$dir_basename.Rproj"
+
+
+################################################################################
+# Update README
+################################################################################
+
+md_readme=("# Project Title"
+           "author: myself"
+           "## Section 1"
+           "blah blah blah"
+           "## Section 2"
+           "more blah blah blah...")
+
+printf "%s\n\n" "${md_readme[@]}" > "README.md"
+
+
+################################################################################
+# Add instance of manuscript template
+################################################################################
+
+git.poach -t https://bitbucket.org/meireles/paper_template -n manuscript
+
+
+################################################################################
+# Commit recent changes and squash them
+################################################################################
+
+git.squash_commits "Instantiated from research_project_template"
+
+# git add .
+# git commit -m "automatic changes"
+# git reset $(git commit-tree HEAD^{tree} -m "Instantiated from research_project_template")
