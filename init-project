@@ -65,14 +65,14 @@ printf "%s\n\n" "${md_readme[@]}" > "README.md"
 # Add instance of manuscript template
 ################################################################################
 
-git-poach -t 'https://bitbucket.org/meireles/paper_template' -n manuscript
+#git-poach -t 'https://bitbucket.org/meireles/paper_template' -n manuscript
 
 
 ################################################################################
 # Commit recent changes and squash them
 ################################################################################
 
-git-squash_commits "Instantiated from research_project_template"
+# git-squash_commits "Instantiated from research_project_template"
 
 # git add .
 # git commit -m "automatic changes"
