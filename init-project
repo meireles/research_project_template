@@ -20,10 +20,16 @@ git_subrepo_root="$GIT_SUBREPO_ROOT"
 ################################################################################
 
 # current dir is a git repo
-if [[ ! -d "$current_path/.git" ]]; then
+# if [[ ! -d "$current_path/.git" ]]; then
+#   echo "Error: init_project must be run at the root of a git repo!"
+#   exit 1
+# fi
+
+if [[ git_is_pwd_repo == false ]]; then
   echo "Error: init_project must be run at the root of a git repo!"
   exit 1
 fi
+
 
 # git-subrepo is installed
 if [[ -z "$git_subrepo_root" ]]; then
@@ -60,20 +66,3 @@ md_readme=("# Project Title"
 
 printf "%s\n\n" "${md_readme[@]}" > "README.md"
 
-
-################################################################################
-# Add instance of manuscript template
-################################################################################
-
-#git-poach -t 'https://bitbucket.org/meireles/paper_template' -n manuscript
-
-
-################################################################################
-# Commit recent changes and squash them
-################################################################################
-
-# git-squash_commits "Instantiated from research_project_template"
-
-# git add .
-# git commit -m "automatic changes"
-# git reset $(git commit-tree HEAD^{tree} -m "Instantiated from research_project_template")
